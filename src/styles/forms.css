@@ -1,0 +1,15 @@
+button,
+input,
+select {
+  width: 100%;
+  padding: 12px;
+}
+
+input,
+select {
+  border-radius: 8px;
+}
+
+button {
+  border-radius: 8px;
+}

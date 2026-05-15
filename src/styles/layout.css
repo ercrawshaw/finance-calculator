@@ -1,0 +1,82 @@
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+  border-bottom: 3px solid #1798ad;
+  padding-bottom: 12px;
+}
+
+.input-row {
+  border: none;
+  background: transparent;
+}
+
+.currency-input {
+  position: relative;
+  width: 100%;
+  border: 2px solid #1798ad;
+  border-radius: 5px;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  color: #1798ad;
+  pointer-events: none;
+}
+
+.currency-input input {
+  width: 100%;
+  padding-left: 34px;
+  border: none;
+  background: transparent;
+}
+
+@media (min-width: 600px) {
+  .page-content {
+    padding: 24px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr) 180px;
+  }
+}
+
+@media (min-width: 900px) {
+  .page-content {
+    padding: 32px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+}

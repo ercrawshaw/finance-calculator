@@ -1,0 +1,66 @@
+.cost-actions {
+  display: grid;
+  grid-template-columns: 1fr 36px;
+  gap: 8px;
+  align-items: center;
+}
+
+.delete-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #1798ad;
+  color: white;
+  font-size: 22px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.delete-button:hover {
+  background: #127d8f;
+}
+
+.result {
+  background: #ecfdf5;
+}
+
+.result-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 12px;
+}
+
+.selected-row {
+  background: #dbeafe;
+  border-radius: 8px;
+}
+
+.household-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.reset-button {
+  background: #f6f4e8;
+  border: 1px solid #d1d5db;
+}
+
+@media (min-width: 600px) {
+  .cost-actions {
+    grid-template-columns: 160px 36px;
+  }
+
+  .result-row {
+    grid-template-columns: 1fr 100px 120px;
+  }
+
+  .household-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}

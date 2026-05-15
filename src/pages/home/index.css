@@ -1,0 +1,46 @@
+.person-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.person-avatar {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  background: transparent;
+  border: 3px solid transparent;
+  padding: 12px;
+}
+
+.person-avatar:hover,
+.person-avatar-selected {
+  font-size: larger;
+}
+
+.person-avatar img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
+.person-avatar-selected {
+  border-color: #bacec1;
+  border-width: 5px;
+}
+
+.person-avatar span {
+  font-weight: bold;
+}
+
+@media (min-width: 600px) {
+  .person-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .person-avatar img {
+    width: 200px;
+    height: 200px;
+  }
+}
