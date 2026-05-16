@@ -1,7 +1,13 @@
 import "./index.css";
 import { personImages } from "../../data/personImages";
 
-function HomePage({ people, selectedPerson, setSelectedPerson }) {
+function HomePage({ page, setPage, people, selectedPerson, setSelectedPerson }) {
+
+  function onClick(person) {
+    setSelectedPerson(person.id);
+    setPage("household");
+  };
+
   return (
     <section>
       <h1>Who are we working as today?</h1>
@@ -17,7 +23,7 @@ function HomePage({ people, selectedPerson, setSelectedPerson }) {
               className={`person-avatar ${
                 isSelected ? "person-avatar-selected" : ""
               }`}
-              onClick={() => setSelectedPerson(person.id)}
+              onClick={() => onClick(person)}
             >
               <img src={image} alt={person.name} />
 
