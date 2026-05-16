@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-
-import { initialCosts, initialPeople } from "./data/starterData";
+import { useEffect, useMemo, useState } from "react";import "./App.css";
+import { initialCosts, initialPeople, initialPersonalCosts } from "./data/starterData";
 import Navigation from "./components/navigation";
 import HomePage from "./pages/home";
 import HouseholdCostsPage from "./pages/household";
@@ -26,6 +24,11 @@ function App() {
     return localStorage.getItem("selectedPerson") || initialPeople[0].id;
   });
 
+  const [personalCosts, setPersonalCosts] = useState(() => {
+    const savedPersonalCosts = localStorage.getItem("personalCosts");
+    return savedPersonalCosts ? JSON.parse(savedPersonalCosts) : initialPersonalCosts;
+  });
+
   useEffect(() => {
     localStorage.setItem("people", JSON.stringify(people));
   }, [people]);
@@ -41,6 +44,37 @@ function App() {
   useEffect(() => {
     localStorage.setItem("selectedPerson", selectedPerson);
   }, [selectedPerson]); 
+
+  useEffect(() => {
+    localStorage.setItem("personalCosts", JSON.stringify(personalCosts));
+  }, [personalCosts]);
+
+  const totalSalary = people.reduce(
+  (sum, person) => sum + Number(person.salary),
+  0
+);
+
+const totalHouseholdCosts = costs.reduce(
+  (sum, cost) => sum + Number(cost.amount),
+  0
+);
+
+const householdBreakdown = useMemo(() => {
+  return people.map((person) => {
+    const percentage = totalSalary === 0 ? 0 : person.salary / totalSalary;
+    const householdAmountOwed = totalHouseholdCosts * percentage;
+
+    return {
+      ...person,
+      percentage,
+      householdAmountOwed,
+    };
+  });
+}, [people, totalSalary, totalHouseholdCosts]);
+
+const selectedPersonHouseholdData = householdBreakdown.find(
+  (person) => person.id === selectedPerson
+);
 
   return (
     <main className="app">
@@ -69,11 +103,18 @@ function App() {
           costs={costs}
           setCosts={setCosts}
           selectedPerson={selectedPerson}
+          householdBreakdown={householdBreakdown}
+          totalHouseholdCosts={totalHouseholdCosts}
         />
       )}
 
       {page === "personal" && (
-        <PersonalCostsPage selectedPerson={selectedPerson} />
+        <PersonalCostsPage
+          selectedPerson={selectedPerson}
+          personalCosts={personalCosts}
+          setPersonalCosts={setPersonalCosts}
+          householdData={selectedPersonHouseholdData}
+        />
       )}
     </div>
     </main>

@@ -38,8 +38,33 @@ select {
 button {
   cursor: pointer;
   font-weight: bold;
+  border-radius: 5px;
+}
+
+.primary:hover {
+  background-color: #1798ad;
+  color: white;
+}
+
+.secondary:hover {
   color: #1798ad;
   border: #1798ad 2px solid;
-  border-radius: 5px;
   background-color: white;
 }
+
+.primary {
+  color: #1798ad;
+  border: #1798ad 2px solid;
+  background-color: white;
+  height: 40px;
+
+}
+
+.secondary {
+  color: white;
+  border: none;
+  background-color: #1798ad;
+  height: 40px;
+
+}
+

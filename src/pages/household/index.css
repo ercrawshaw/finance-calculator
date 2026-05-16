@@ -43,12 +43,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
-  margin-top: 16px;
-}
-
-.reset-button {
-  background: #f6f4e8;
-  border: 1px solid #d1d5db;
+  margin-top: 5px;
 }
 
 @media (min-width: 600px) {

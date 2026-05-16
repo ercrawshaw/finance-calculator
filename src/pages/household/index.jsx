@@ -1,6 +1,8 @@
-import { useMemo } from "react";
 import "./index.css";
 import { initialCosts } from "../../data/starterData.js";
+import CostTable from "../../components/cost-table/index.jsx";
+import Button from "../../components/button/index.jsx";
+
 
 function HouseholdCostsPage({
   people,
@@ -8,29 +10,9 @@ function HouseholdCostsPage({
   costs,
   setCosts,
   selectedPerson,
+  householdBreakdown,
+  totalHouseholdCosts,
 }) {
-  const totalSalary = people.reduce(
-    (sum, person) => sum + Number(person.salary),
-    0
-  );
-
-  const totalCosts = costs.reduce(
-    (sum, cost) => sum + Number(cost.amount),
-    0
-  );
-
-  const breakdown = useMemo(() => {
-    return people.map((person) => {
-      const percentage = totalSalary === 0 ? 0 : person.salary / totalSalary;
-      const owed = totalCosts * percentage;
-
-      return {
-        ...person,
-        percentage,
-        owed,
-      };
-    });
-  }, [people, totalSalary, totalCosts]);
 
   function updatePerson(index, field, value) {
     const updatedPeople = [...people];
@@ -77,84 +59,35 @@ function HouseholdCostsPage({
         </p>
       </section>
 
-      <section className="card">
-        <h2>Salaries</h2>
+      <CostTable
+        title="Salaries"
+        items={people}
+        updateValue={updatePerson}
+        amountField="salary"
+      />
 
-        {people.map((person, index) => (
-          <div className="row" key={person.id}>
-            <input
-              className="input-row"
-              value={person.name}
-              onChange={(e) => updatePerson(index, "name", e.target.value)}
-            />
+      <CostTable
+        title="Shared monthly costs"
+        items={costs}
+        updateValue={updateCost}
+        amountField="amount"
+        showDelete={true}
+        onDelete={removeCost}
+      />
 
-            <div className="currency-input">
-              <span className="currency-symbol">£</span>
-
-              <input
-                type="number"
-                value={person.salary}
-                onChange={(e) =>
-                  updatePerson(index, "salary", e.target.value)
-                }
-              />
-            </div>
-          </div>
-        ))}
-      </section>
-
-      <section className="card">
-        <h2>Shared monthly costs</h2>
-
-        {costs.map((cost, index) => (
-          <div className="row" key={index}>
-            <input
-              className="input-row"
-              value={cost.name}
-              onChange={(e) => updateCost(index, "name", e.target.value)}
-            />
-
-            <div className="cost-actions">
-              <div className="currency-input">
-                <span className="currency-symbol">£</span>
-
-                <input
-                  type="number"
-                  value={cost.amount}
-                  onChange={(e) =>
-                    updateCost(index, "amount", e.target.value)
-                  }
-                />
-              </div>
-
-              <button
-                className="delete-button"
-                onClick={() => removeCost(index)}
-                aria-label={`Remove ${cost.name}`}
-              >
-                &times;
-              </button>
-            </div>
-          </div>
-        ))}
-
-        <div className="household-actions">
-          <button onClick={addCost}>&#43; Add cost</button>
-
-          <button className="reset-button" onClick={resetHouseholdData}>
-            Reset costs
-          </button>
-        </div>
+      <section className="card household-actions">
+        <Button buttonType="primary" clickedFunction={addCost} text="&#43; Add cost" />
+        <Button buttonType="secondary" clickedFunction={resetHouseholdData} text="Reset costs" />
       </section>
 
       <section className="card result">
         <h2>What each person owes</h2>
 
         <p>
-          <strong>Total monthly costs:</strong> £{totalCosts.toFixed(2)}
+          <strong>Total monthly costs:</strong> £{totalHouseholdCosts.toFixed(2)}
         </p>
 
-        {breakdown.map((person) => {
+        {householdBreakdown.map((person) => {
           const isSelected = person.id === selectedPerson;
 
           return (
@@ -164,7 +97,7 @@ function HouseholdCostsPage({
             >
               <span>{isSelected ? "You" : person.name}</span>
               <span>{(person.percentage * 100).toFixed(1)}%</span>
-              <strong>£{person.owed.toFixed(2)}</strong>
+              <strong>£{person.householdAmountOwed.toFixed(2)}</strong>
             </div>
           );
         })}

@@ -1,10 +1,6 @@
 import { useState } from "react";
 import "./index.css";
-
-import elleImage from "../../assets/elle.png";
-import lewisImage from "../../assets/lewis.png";
-
-const personImages = {elle: elleImage, lewis: lewisImage};
+import { personImages } from "../../data/personImages";
 
 const pages = [
   { id: "home", label: "Home" },

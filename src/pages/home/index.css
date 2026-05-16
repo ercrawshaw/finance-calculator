@@ -16,6 +16,8 @@
 .person-avatar:hover,
 .person-avatar-selected {
   font-size: larger;
+  background-color: white;
+  color: #1798ad;
 }
 
 .person-avatar img {
