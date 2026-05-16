@@ -90,6 +90,8 @@ const selectedPersonHouseholdData = householdBreakdown.find(
 
       {page === "home" && (
         <HomePage
+          page={page}
+          setPage={setPage}
           people={people}
           selectedPerson={selectedPerson}
           setSelectedPerson={setSelectedPerson}
