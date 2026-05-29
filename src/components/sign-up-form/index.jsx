@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+import Button from '../button';
 import './index.css';
 
 function SignUpForm({ onShowLogin }) {
@@ -74,7 +75,6 @@ function SignUpForm({ onShowLogin }) {
     <main className="auth-page">
       <form className="auth-card" onSubmit={handleSignUp}>
         <div className="auth-header">
-          <p className="auth-kicker">Household planner</p>
           <h1>Create account</h1>
           <p className="auth-intro">
             Use your invite code to join your household.
@@ -98,7 +98,7 @@ function SignUpForm({ onShowLogin }) {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               type="password"
-              placeholder="Choose a password"
+              placeholder="Password"
             />
           </label>
 
@@ -107,7 +107,7 @@ function SignUpForm({ onShowLogin }) {
             <input
               value={inviteCode}
               onChange={(event) => setInviteCode(event.target.value)}
-              placeholder="LEWIS-ELLE"
+              placeholder="Enter your invite code"
             />
           </label>
 
@@ -116,23 +116,24 @@ function SignUpForm({ onShowLogin }) {
             <input
               value={profileName}
               onChange={(event) => setProfileName(event.target.value)}
-              placeholder="Elle"
+              placeholder="Name"
             />
           </label>
         </div>
 
         <div className="auth-actions">
-          <button className="auth-button primary" type="submit">
-            Create account
-          </button>
+          <Button
+            buttonType="auth-button primary"
+            type="submit"
+            text="Create account"
+          />
 
-          <button
-            className="auth-button secondary"
+          <Button
+            buttonType="auth-button secondary"
             type="button"
-            onClick={onShowLogin}
-          >
-            Already have an account? Log in
-          </button>
+            clickedFunction={onShowLogin}
+            text="Log in instead"
+          />
         </div>
 
         {message && <p className="auth-message">{message}</p>}

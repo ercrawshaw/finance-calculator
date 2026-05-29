@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+import Button from '../button';
 import './index.css';
 
 function LoginForm({ onShowCreateAccount }) {
@@ -28,7 +29,6 @@ function LoginForm({ onShowCreateAccount }) {
     <main className="auth-page">
       <form className="auth-card" onSubmit={handleLogin}>
         <div className="auth-header">
-          <p className="auth-kicker">Household planner</p>
           <h1>Log in</h1>
           <p className="auth-intro">
             Sign in to manage your household budget.
@@ -58,17 +58,18 @@ function LoginForm({ onShowCreateAccount }) {
         </div>
 
         <div className="auth-actions">
-          <button className="auth-button primary" type="submit">
-            Log in
-          </button>
+          <Button
+            buttonType="auth-button primary"
+            type="submit"
+            text="Log in"
+          />
 
-          <button
-            className="auth-button secondary"
+          <Button
+            buttonType="auth-button secondary"
             type="button"
-            onClick={onShowCreateAccount}
-          >
-            Need an account? Create one
-          </button>
+            clickedFunction={onShowCreateAccount}
+            text="Create an account"
+          />
         </div>
 
         {message && <p className="auth-message">{message}</p>}
