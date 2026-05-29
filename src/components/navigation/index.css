@@ -99,6 +99,29 @@
   object-fit: cover;
 }
 
+.person-menu-divider {
+  height: 1px;
+  background: #ddd;
+  margin: 8px 0;
+}
+
+.person-menu-user {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  word-break: break-word;
+}
+
+.person-menu-logout {
+  width: 100%;
+  color: #b00020;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-align: left;
+  min-width: max-content;
+}
+
 @media (min-width: 700px) {
   .mobile-page-select {
     display: none;

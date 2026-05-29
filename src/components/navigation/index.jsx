@@ -14,6 +14,8 @@ function Navigation({
   people,
   selectedPerson,
   setSelectedPerson,
+  user,
+  handleLogout,
 }) {
   const [isPersonMenuOpen, setIsPersonMenuOpen] = useState(false);
 
@@ -84,8 +86,21 @@ function Navigation({
                 <span>{person.name}</span>
               </button>
             ))}
+
+            <div className="person-menu-divider" />
+
+            <button
+              type="button"
+              className="person-menu-logout"
+              onClick={() => {
+                setIsPersonMenuOpen(false);
+                handleLogout();
+              }}
+            >
+              Log out
+            </button>
           </div>
-        )}
+)}
       </div>
     </nav>
   );
