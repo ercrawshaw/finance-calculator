@@ -1,7 +1,7 @@
-export const initialPeople = [
-  { id: "elle", name: "Elle", salary: 1900, image: "elle" },
-  { id: "lewis", name: "Lewis", salary: 3200, image: "lewis" },
-];
+// export const initialPeople = [
+//   { id: "elle", name: "Elle", salary: 1900, image: "elle", user_id: "ed043b73-57f1-4f15-8bc1-4f5d98a9c172" },
+//   { id: "lewis", name: "Lewis", salary: 3200, image: "lewis", user_id: null },
+// ];
 
 export const initialCosts = [
   {id:0, name: "Gas and Electric", amount: 220 },

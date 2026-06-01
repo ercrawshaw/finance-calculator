@@ -69,23 +69,31 @@ function Navigation({
 
         {isPersonMenuOpen && (
           <div className="person-menu">
-            {people.map((person) => (
-              <button
-                key={person.id}
-                onClick={() => {
-                  setSelectedPerson(person.id);
-                  setIsPersonMenuOpen(false);
-                }}
-              >
-                <img
-                  src={personImages[person.image]}
-                  alt={person.name}
-                  className="person-menu-image"
-                />
+            {people.map((person) => {
+              const isLoggedInPerson = person.user_id === user?.id;
 
-                <span>{person.name}</span>
-              </button>
-            ))}
+              return (
+                <button
+                  key={person.id}
+                  onClick={() => {
+                    setSelectedPerson(person.id);
+                    setIsPersonMenuOpen(false);
+                  }}
+                >
+                  <img
+                    src={personImages[person.image]}
+                    alt={person.name}
+                    className="person-menu-image"
+                  />
+
+                  <span>{person.name}</span>
+
+                  {isLoggedInPerson && (
+                    <span className="person-menu-you">You</span>
+                  )}
+                </button>
+              );
+            })}
 
             <div className="person-menu-divider" />
 

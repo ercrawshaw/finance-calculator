@@ -112,6 +112,12 @@
   word-break: break-word;
 }
 
+.person-menu-you {
+  margin-left: auto;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
 .person-menu-logout {
   width: 100%;
   color: #b00020;

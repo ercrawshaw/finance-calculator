@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
 import { supabase } from "./lib/supabaseClient";
+import { getUserHousehold } from "./utils/profile-utils";
 
-import { initialCosts, initialPeople, initialPersonalCosts } from "./data/starterData";
+import { initialCosts, initialPersonalCosts } from "./data/starterData";
 
 import AuthPage from "./pages/auth-page";
 import Navigation from "./components/navigation";
@@ -14,23 +15,18 @@ import PersonalCostsPage from "./pages/personal";
 function App() {
   const [user, setUser] = useState(null);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [isLoadingHousehold, setIsLoadingHousehold] = useState(false);
 
   const [page, setPage] = useState(() => {
     return localStorage.getItem("page") || "home";
   });
 
-  const [people, setPeople] = useState(() => {
-    const savedPeople = localStorage.getItem("people");
-    return savedPeople ? JSON.parse(savedPeople) : initialPeople;
-  });
+  const [people, setPeople] = useState([]);
+  const [selectedPerson, setSelectedPerson] = useState("");
 
   const [costs, setCosts] = useState(() => {
     const savedCosts = localStorage.getItem("costs");
     return savedCosts ? JSON.parse(savedCosts) : initialCosts;
-  });
-
-  const [selectedPerson, setSelectedPerson] = useState(() => {
-    return localStorage.getItem("selectedPerson") || initialPeople[0].id;
   });
 
   const [personalCosts, setPersonalCosts] = useState(() => {
@@ -62,8 +58,46 @@ function App() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("people", JSON.stringify(people));
-  }, [people]);
+    async function loadHouseholdPeople() {
+      if (!user) {
+        setPeople([]);
+        setSelectedPerson("");
+        return;
+      }
+
+      setIsLoadingHousehold(true);
+
+      try {
+        const household = await getUserHousehold(user.id);
+
+        const formattedPeople = household.profiles.map((profile) => ({
+          id: profile.id,
+          name: profile.name,
+          salary: Number(profile.monthly_income),
+          image: profile.name.toLowerCase(),
+          user_id: profile.user_id,
+        }));
+
+        setPeople(formattedPeople);
+
+        const signedInPerson = formattedPeople.find((person) => {
+          return person.user_id === user.id;
+        });
+
+        if (signedInPerson) {
+          setSelectedPerson(signedInPerson.id);
+        } else if (formattedPeople.length > 0) {
+          setSelectedPerson(formattedPeople[0].id);
+        }
+      } catch (error) {
+        console.error("Could not load household people:", error.message);
+      } finally {
+        setIsLoadingHousehold(false);
+      }
+    }
+
+    loadHouseholdPeople();
+  }, [user]);
 
   useEffect(() => {
     localStorage.setItem("costs", JSON.stringify(costs));
@@ -111,6 +145,8 @@ function App() {
   async function handleLogout() {
     await supabase.auth.signOut();
     setUser(null);
+    setPeople([]);
+    setSelectedPerson("");
   }
 
   if (isCheckingSession) {
@@ -121,16 +157,24 @@ function App() {
     return <AuthPage />;
   }
 
-  return (
-    <main className="app">
-      {/* <div className="auth-bar">
-        <p>Logged in as {user.email}</p>
+  if (isLoadingHousehold) {
+    return <p>Loading household...</p>;
+  }
+
+  if (people.length === 0) {
+    return (
+      <main className="app">
+        <p>No household profiles found for this user.</p>
 
         <button type="button" onClick={handleLogout}>
           Log out
         </button>
-      </div> */}
+      </main>
+    );
+  }
 
+  return (
+    <main className="app">
       <Navigation
         page={page}
         setPage={setPage}
